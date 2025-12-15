@@ -9,27 +9,27 @@ El siguiente diagrama ilustra el flujo de datos desde que un usuario envía un m
 ```mermaid
 graph TD
     User((Usuario Final)) -->|WhatsApp| Twilio[Gateway Twilio]
-    Twilio -->|Webhook (POST)| API[API Gateway / DRF]
+    Twilio -->|"Webhook (POST)"| API["API Gateway / DRF"]
 
     subgraph "Core del Sistema (Backend)"
         API --> Orchestrator[Orquestador Cognitivo]
 
-        Orchestrator -->|Inyección de Contexto| ContextBuilder[Context Builder]
-        Orchestrator -->|Inferencia| AI_Adapter[Adaptador IA (Polimórfico)]
+        Orchestrator -->|"Inyección de Contexto"| ContextBuilder["Context Builder"]
+        Orchestrator -->|Inferencia| AI_Adapter["Adaptador IA (Polimórfico)"]
 
-        AI_Adapter -.->|1. Groq / Llama 3| GroqCloud
-        AI_Adapter -.->|2. Google Gemini| GoogleCloud
-        AI_Adapter -.->|3. Modelos Locales| Ollama
+        AI_Adapter -.->|"1. Groq / Llama 3"| GroqCloud
+        AI_Adapter -.->|"2. Google Gemini"| GoogleCloud
+        AI_Adapter -.->|"3. Modelos Locales"| Ollama
 
-        Orchestrator -->|Ejecución de Tools| Services[Capa de Servicios]
+        Orchestrator -->|"Ejecución de Tools"| Services[Capa de Servicios]
 
-        Services -->|Atomic Transactions| DB[(PostgreSQL)]
-        Services -->|Eventos Asíncronos| Celery[Cola de Tareas]
+        Services -->|"Atomic Transactions"| DB[(PostgreSQL)]
+        Services -->|"Eventos Asíncronos"| Celery[Cola de Tareas]
     end
 
     Celery -->|Procesamiento| Redis[Broker Redis]
-    Services -->|Resultado Estructurado| Orchestrator
-    Orchestrator -->|Respuesta Natural| Twilio
+    Services -->|"Resultado Estructurado"| Orchestrator
+    Orchestrator -->|"Respuesta Natural"| Twilio
 ```
 
 ## 🧩 Componentes Principales
@@ -78,5 +78,3 @@ El diseño asume que los Modelos de Lenguaje (LLMs) no son deterministas y puede
 1.  **Read-Only por Defecto:** La IA no tiene permisos de escritura directa en la DB.
 2.  **Validación de Tools:** Cualquier intento de la IA de ejecutar una acción (ej. `book_appointment`) es interceptado y validado por la Capa de Dominio. Si la IA inventa una fecha o un servicio que no existe, el sistema rechaza la operación y devuelve un error controlado.
 3.  **Sanitización de Inputs:** Todos los datos provenientes de WhatsApp son limpiados y validados antes de procesarse.
-
----
