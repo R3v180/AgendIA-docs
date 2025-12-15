@@ -131,7 +131,7 @@ AgendIA está evolucionando de un "gestor de citas" a un **CRM Inteligente**.
     El código fuente es privado y propiedad intelectual de sus desarrolladores.
   </p>
   <p>
-    ¿Interesado en el proyecto? <a href="mailto:tuemail@ejemplo.com">Contáctanos</a>
+    ¿Interesado en el proyecto? <a href="mailto:info@ohcodex.com">Contáctanos</a>
   </p>
   <br>
   <p>Copyright © 2025 AgendIA / OH Codex</p>
