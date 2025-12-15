@@ -1,66 +1,68 @@
-# 🤖 AgendIA: El Futuro de la Gestión de Citas
+# 🤖 AgendIA: SaaS de Gestión de Citas con IA (WhatsApp Native)
 
-![Banner AgendIA](https://via.placeholder.com/1200x400/4F46E5/ffffff?text=AgendIA+SaaS+Preview)
-*(Aquí subiremos una captura real de tu Dashboard más adelante)*
+> **Nota:** Este repositorio contiene la documentación técnica y roadmap del proyecto. El código fuente es privado (Propietario).
 
-> **Transforma tu agenda en un Asistente Inteligente.** AgendIA no es solo un calendario; es una recepcionista virtual que trabaja 24/7 en WhatsApp, gestiona tu CRM y fideliza a tus clientes automáticamente.
+**AgendIA** es una plataforma SaaS diseñada para automatizar la gestión de reservas mediante Inteligencia Artificial Generativa. No es un simple chatbot: es un **agente autónomo** capaz de entender el calendario, negociar huecos, gestionar cancelaciones y manejar situaciones complejas (como bajas de personal) en tiempo real a través de WhatsApp.
 
----
+## 📸 Vistazo Rápido
 
-## 🚀 Características Principales
+### 🧠 El Cerebro: IA Transparente
 
-### 🧠 Inteligencia Artificial Conversacional
-Olvídate de los chatbots tontos con botones. AgendIA utiliza **LLMs avanzados (Llama 3 / Gemini)** para:
-- Negociar horas con el cliente de forma natural.
-- Responder dudas sobre servicios y precios.
-- Gestionar cancelaciones y reagendar automáticamente.
+El sistema utiliza un orquestador que decide qué herramientas usar. A diferencia de otros bots, AgendIA no "alucina" horas; consulta la base de datos en tiempo real.
+![Logs de IA](assets/screenshots/ai-logs-debugging.png)
+_Panel de auditoría donde se ve cómo la IA ejecuta la tool `check_availability` y `book_appointment`._
 
-### 📅 Super Calendario & CRM
-Un panel de control moderno para el dueño del negocio:
-- **Vista Semanal:** Drag & Drop con validación de conflictos en tiempo real.
-- **Expediente de Cliente:** Historial, LTV (Valor de vida), notas privadas y preferencias.
-- **Logística:** Control de ausencias del personal y cierres por festivos.
+### 📅 Calendario Interactivo
 
-### 💎 Motor de Fidelización (Loyalty)
-Convierte visitas en fans:
-- **Puntos Automáticos:** Suma puntos por cada servicio completado.
-- **Catálogo de Regalos:** Los clientes canjean puntos por productos o descuentos.
-- **Portal del Cliente:** Una Web App (Magic Link) donde tus clientes ven su saldo y reservan sin instalar nada.
+Panel administrativo para el negocio. Soporta **Drag & Drop**, múltiples empleados y bloqueos visuales.
+![Calendario](assets/screenshots/calendar-drag-drop.png)
 
----
+### 📊 Dashboard de Negocio
+
+Control total de KPIs, ingresos estimados y flujo de clientes.
+![Dashboard](assets/screenshots/dashboard-kpis.png)
 
 ## 🛠️ Stack Tecnológico
 
-Construido con tecnología robusta y escalable:
+El núcleo está construido sobre una arquitectura robusta y escalable:
 
-| Área | Tecnología |
-| :--- | :--- |
-| **Backend** | Python, Django 5, Django REST Framework |
-| **IA & LLMs** | Groq, Google Gemini, OpenAI (Tool Use & Function Calling) |
-| **Database** | PostgreSQL + Redis (Caching) |
-| **Async** | Celery (Colas de tareas en background) |
-| **Frontend** | TailwindCSS + Alpine.js (Diseño reactivo y ligero) |
-| **Mensajería** | API Oficial de WhatsApp (Twilio) |
+- **Backend:** Python / Django 5.0
+- **API:** Django Rest Framework (DRF)
+- **Asincronía:** Celery + Redis (para recordatorios y gestión de crisis en segundo plano).
+- **Base de Datos:** PostgreSQL.
+- **Frontend:** TailwindCSS + JavaScript (Server Side Rendering).
+- **IA Core:** Arquitectura de adaptadores agnóstica:
+  - Soporte actual: **Google Gemini 3 Pro**, **Groq (Llama 3)**, **SambaNova**.
+  - Capacidad de _Tool Calling_ y razonamiento recursivo.
+
+## ✨ Funcionalidades Clave (Technical Highlights)
+
+1.  **Protocolo Zero-Trust:** La IA nunca escribe directamente en la base de datos. Solicita acciones al Backend, el cual valida reglas de negocio (horarios, festivos, bloqueos) y devuelve éxito o error.
+2.  **Gestión de Crisis Automática:** Si un empleado se pone enfermo, el sistema detecta los conflictos, bloquea la agenda y la IA contacta proactivamente a los clientes afectados para reagendar.
+3.  **Multitenancy:** Diseño preparado para SaaS, donde cada negocio tiene su configuración de tono de IA, horarios y servicios aislados.
+4.  **Simulador Integrado:** Entorno de pruebas ("sandbox") para testear prompts sin coste de mensajería real.
+
+## 🗺️ Roadmap Público
+
+### ✅ Fase 1: Core & MVP (Completado)
+
+- [x] Motor de IA con persistencia de contexto.
+- [x] Integración WhatsApp (Twilio).
+- [x] Calendario Drag & Drop con validación en tiempo real.
+- [x] Sistema de Logs y Auditoría de IA.
+
+### 🚧 Fase 2: Fidelización & CRM (En Desarrollo)
+
+- [ ] Sistema de Puntos y Recompensas.
+- [ ] Campañas de Marketing automatizadas por IA (Recuperación de clientes).
+- [ ] Panel de métricas avanzado (LTV, Churn).
+
+### 🚀 Fase 3: Expansión
+
+- [ ] App Móvil Nativa (PWA).
+- [ ] Integración de Pagos (Stripe) para reservas.
+- [ ] Voice AI (Agendar por llamadas de voz).
 
 ---
 
-## 📸 Galería (Sneak Peek)
-
-| Dashboard | Calendario Inteligente |
-| :---: | :---: |
-| ![Dashboard](https://via.placeholder.com/400x300?text=Dashboard+KPIs) | ![Calendar](https://via.placeholder.com/400x300?text=Drag+and+Drop) |
-
-| CRM Clientes | Simulador IA |
-| :---: | :---: |
-| ![CRM](https://via.placeholder.com/400x300?text=Ficha+Cliente) | ![Chat](https://via.placeholder.com/400x300?text=WhatsApp+Bot) |
-
----
-
-### 🚧 Estado del Proyecto
-Actualmente en fase **Beta Privada**.
-* [x] Core del Sistema y Base de Datos.
-* [x] Integración con WhatsApp e IA.
-* [ ] Lanzamiento del Portal de Cliente.
-
----
-*Developed with ❤️ by OH Codex*
+_Desarrollado por [Tu Nombre/Empresa]_
