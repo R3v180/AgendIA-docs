@@ -129,7 +129,7 @@ El estado actual del proyecto y la visión a largo plazo.
     El código fuente es privado y propiedad intelectual de sus desarrolladores.
   </p>
   <p>
-    ¿Interesado en el proyecto? <a href="mailto:contacto@agendia.app">Contáctanos</a>
+    ¿Interesado en el proyecto? <a href="mailto:info@ohcodex.com">Contáctanos</a>
   </p>
   <br>
   <p>Copyright © 2025 AgendIA / Cyborg SaaS</p>
