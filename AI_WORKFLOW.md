@@ -81,7 +81,3 @@ Los LLMs pueden cometer errores. AgendIA implementa capas de defensa para mitiga
 - **Validación de IDs:** La IA trabaja con IDs numéricos para los servicios. Si intenta reservar un servicio inexistente, el backend devuelve un error explicativo y obliga a la IA a preguntar de nuevo.
 - **Confirmación Silenciosa:** Cuando la IA ejecuta una acción de escritura (ej. Reservar), se le prohíbe generar texto de confirmación por sí misma. El backend genera el mensaje de confirmación oficial (con los datos reales guardados en DB) para garantizar que lo que lee el usuario es exactamente lo que ocurrió en el sistema.
 - **Manejo de "Slot Busy":** Si entre que el usuario pregunta y confirma, otro usuario ocupa el hueco, el backend devuelve un error `SLOT_UNAVAILABLE`. La IA recibe este error y automáticamente sugiere: _"Vaya, justo acaban de reservar esa hora. ¿Te va bien media hora más tarde?"_.
-
-```
-
-```
