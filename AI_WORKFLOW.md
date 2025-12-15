@@ -6,47 +6,38 @@ Este documento detalla el ciclo de vida de una interacción y cómo garantizamos
 
 ## 🔄 El Ciclo Cognitivo (The Cognitive Loop)
 
-Cada mensaje entrante de un usuario dispara un proceso de orquestación de 5 pasos:
+Cada mensaje entrante de un usuario dispara un proceso de orquestación secuencial. El siguiente diagrama detalla la interacción entre los componentes:
 
 ```mermaid
 sequenceDiagram
-    participant User as Usuario (WhatsApp)
-    participant Orch as Orquestador
-    participant Context as Context Builder
-    participant LLM as Modelo IA (Llama3/Gemini)
-    participant DB as Base de Datos
+    autonumber
+    participant User as 👤 Usuario
+    participant Orch as ⚙️ Orquestador
+    participant Context as 📝 Contexto
+    participant LLM as 🧠 Modelo IA
+    participant DB as 🗄️ Base de Datos
 
     User->>Orch: "Quiero cita para corte el viernes"
 
-    rect rgb(240, 248, 255)
-        Note over Orch, Context: FASE 1: Enriquecimiento
-        Orch->>Context: Solicitar Estado Actual
-        Context-->>Orch: {Fecha: 2025-12-15, Servicios: [ID:1 Corte...], Cliente: "Juan"}
-    end
+    Note over Orch, Context: 🔍 FASE 1: ENRIQUECIMIENTO
+    Orch->>Context: Solicitar Estado (Fecha, Cliente, Servicios)
+    Context-->>Orch: JSON Context {hoy: "2025-12-15", cliente: "Juan"...}
 
     Orch->>LLM: Prompt del Sistema + Contexto + Mensaje Usuario
 
-    rect rgb(255, 240, 245)
-        Note over LLM: FASE 2: Razonamiento
-        LLM-->>Orch: OUTPUT: Tool Call JSON {name: "check_availability", args: {...}}
-    end
+    Note over LLM: 💭 FASE 2: RAZONAMIENTO
+    LLM-->>Orch: OUTPUT: Tool Call JSON {name: "check_availability", args: {...}}
 
-    rect rgb(240, 255, 240)
-        Note over Orch, DB: FASE 3: Ejecución Segura
-        Orch->>DB: Query: ¿Huecos libres viernes?
-        DB-->>Orch: Resultado: [10:00, 11:30, 16:00]
-    end
+    Note over Orch, DB: 🛠️ FASE 3: EJECUCIÓN SEGURA (Zero-Trust)
+    Orch->>DB: Query: ¿Huecos libres viernes?
+    DB-->>Orch: Resultado: [10:00, 11:30, 16:00]
 
     Orch->>LLM: Input: "El sistema devolvió estos huecos..."
 
-    rect rgb(255, 250, 240)
-        Note over LLM: FASE 4: Síntesis
-        LLM-->>Orch: "Tengo libre el viernes a las 10:00, 11:30 o 16:00. ¿Cuál prefieres?"
-    end
+    Note over LLM: 🗣️ FASE 4: SÍNTESIS DE RESPUESTA
+    LLM-->>Orch: "Tengo libre el viernes a las 10:00, 11:30 o 16:00. ¿Cuál prefieres?"
 
-    Orch->>User: Respuesta Final
-```
-
+    Orch->>User: Respuesta Final (WhatsApp)
 ```
 
 ## 🛠️ Herramientas Definidas (Function Calling)
@@ -67,7 +58,7 @@ La IA no tiene permiso para inventar información. Solo puede interactuar con el
 
 - **`book_appointment(service_id, date, time)`**:
   - Intenta reservar un hueco específico.
-  - _Validación:_ El backend verifica **atónomicamente** que el hueco siga libre antes de confirmar.
+  - _Validación:_ El backend verifica **atómicamente** que el hueco siga libre antes de confirmar.
 - **`cancel_appointment()`**:
   - Localiza la próxima cita futura del usuario y la cancela.
 - **`reschedule_appointment(date, time)`**:
@@ -91,5 +82,6 @@ Los LLMs pueden cometer errores. AgendIA implementa capas de defensa para mitiga
 - **Confirmación Silenciosa:** Cuando la IA ejecuta una acción de escritura (ej. Reservar), se le prohíbe generar texto de confirmación por sí misma. El backend genera el mensaje de confirmación oficial (con los datos reales guardados en DB) para garantizar que lo que lee el usuario es exactamente lo que ocurrió en el sistema.
 - **Manejo de "Slot Busy":** Si entre que el usuario pregunta y confirma, otro usuario ocupa el hueco, el backend devuelve un error `SLOT_UNAVAILABLE`. La IA recibe este error y automáticamente sugiere: _"Vaya, justo acaban de reservar esa hora. ¿Te va bien media hora más tarde?"_.
 
+```
 
 ```
