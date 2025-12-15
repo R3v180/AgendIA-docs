@@ -132,5 +132,5 @@ El estado actual del proyecto y la visión a largo plazo.
     ¿Interesado en el proyecto? <a href="mailto:info@ohcodex.com">Contáctanos</a>
   </p>
   <br>
-  <p>Copyright © 2025 AgendIA / Cyborg SaaS</p>
+  <p>Copyright © 2025 AgendIA / OH Codex</p>
 </div>
