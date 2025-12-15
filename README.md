@@ -63,4 +63,4 @@ Actualmente en fase **Beta Privada**.
 * [ ] Lanzamiento del Portal de Cliente.
 
 ---
-*Developed with ❤️ by [Tu Nombre/Usuario]*
+*Developed with ❤️ by OH Codex*
